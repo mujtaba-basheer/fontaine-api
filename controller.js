@@ -38,7 +38,7 @@ export const getSubscribers = async (req, res, next) => {
 // Contact Fontaine: POST
 export const contactFontaine = AsyncHandler(async (req, res, next) => {
   try {
-    const data = [...req.body];
+    const data = [req.body];
     console.log(data);
     const resp = await api.postReq("/marketing/api/lead?manufacturer=FT", data);
     console.log(JSON.stringify(resp));
