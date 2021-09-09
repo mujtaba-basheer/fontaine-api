@@ -38,10 +38,24 @@ export const getSubscribers = async (req, res, next) => {
 // Contact Fontaine: POST
 export const contactFontaine = AsyncHandler(async (req, res, next) => {
   try {
-    const data = [req.body];
-    console.log(data);
+    const formData = Object.assign(
+      {
+        LeadSourceName: "Organic",
+        LeadTypeName: "Build a Trailer",
+        LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
+        IsCommunicationOptIn: true,
+        CommunicationOptInIpAddress: null,
+        CommunicationOptInDate: null,
+        CommunicationOptInSource: null,
+      },
+      req.body
+    );
+    const data = [formData];
     const resp = await api.postReq("/marketing/api/lead?manufacturer=FT", data);
-    console.log(JSON.stringify(resp));
+
+    if (resp["Status"] && resp["Status"] === "Failure")
+      throw new Error(resp["StatusMessage"]);
 
     res.json({
       status: true,
