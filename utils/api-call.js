@@ -3,13 +3,9 @@ import { config } from "dotenv";
 config({ path: ".env" });
 
 class HTTPResponseError extends Error {
-  constructor(response, ...args) {
-    super(
-      `HTTP Error Response: ${response.status} ${response.statusText}`,
-      ...args
-    );
-    this.response = response;
-    this.statusCode = response.status;
+  constructor(status, statusText, ...args) {
+    super(`HTTP Error Response: ${status} ${statusText}`, ...args);
+    this.statusCode = status;
   }
 }
 
@@ -41,7 +37,7 @@ class ApiCall {
       })
         .then((resp) => {
           if (resp.ok) return resp.json();
-          else throw new HTTPResponseError(resp);
+          else throw new HTTPResponseError(resp.status, resp.statusText);
         })
         .then((resp) => {
           this.timeLapsed = new Date().getTime();
@@ -63,7 +59,7 @@ class ApiCall {
         })
           .then((resp) => {
             if (resp.ok) return resp.json();
-            else throw new HTTPResponseError(resp);
+            else throw new HTTPResponseError(resp.status, resp.statusText);
           })
           .then((resp) => {
             res(resp);
@@ -89,7 +85,8 @@ class ApiCall {
             else throw new HTTPResponseError(resp);
           })
           .then((resp) => {
-            res(resp);
+            if (resp["Status"] === "Success") res(resp);
+            else throw new HTTPResponseError(400, resp["StatusMessage"]);
           })
           .catch((err) => rej(err));
       });

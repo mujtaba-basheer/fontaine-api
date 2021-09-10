@@ -7,7 +7,19 @@ const api = new ApiCall();
 // Add A Subscriber: POST
 export const addSubscriber = async (req, res, next) => {
   try {
-    const data = Object.assign({}, req.body);
+    const data = Object.assign(
+      {
+        SubscriberTypeCode: "NewsletterFT",
+        CountryCode: "US",
+        IsCommunicationOptIn: true,
+        SendAutoresponder: false,
+        Brand: "FT",
+        CommunicationOptInIpAddress: null,
+        CommunicationOptInDate: null,
+        CommunicationOptInSource: null,
+      },
+      req.body
+    );
     const resp = await api.postReq("/api/subscriber?manufacturer=FT", data);
 
     res.json({
