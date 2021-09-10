@@ -5,18 +5,18 @@ import AsyncHandler from "express-async-handler";
 const api = new ApiCall();
 
 // Add A Subscriber: POST
-export const addSubscriber = async (req, res, next) => {
+export const addSubscriber = AsyncHandler(async (req, res, next) => {
   try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const data = Object.assign(
       {
         SubscriberTypeCode: "NewsletterFT",
         CountryCode: "US",
         IsCommunicationOptIn: true,
-        SendAutoresponder: false,
         Brand: "FT",
-        CommunicationOptInIpAddress: null,
-        CommunicationOptInDate: null,
-        CommunicationOptInSource: null,
+        IsCommunicationOptInIpAddress: ipAddress,
+        IsCommunicationOptInDate: new Date().toISOString().substring(0, 10),
+        IsCommunicationOptInSource: req.headers.host || "website",
       },
       req.body
     );
@@ -24,22 +24,21 @@ export const addSubscriber = async (req, res, next) => {
 
     res.json({
       status: true,
-      data: resp,
+      msg: "You have been successfully added to our newsletter.",
     });
   } catch (error) {
     console.error(error);
-    return next(new AppError("Error hoye geche", error.statusCode));
+    return next(new AppError(error.message, error.statusCode));
   }
-};
+});
 
 // Get List of Subscribers: GET
 export const getSubscribers = async (req, res, next) => {
   try {
-    const resp = await api.getReq("/odata/v2/SubscriberOptIn");
+    await api.getReq("/odata/v2/SubscriberOptIn");
 
     res.json({
       status: true,
-      data: resp["value"],
     });
   } catch (error) {
     console.error(error);
@@ -63,15 +62,13 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
       },
       req.body
     );
+    console.log(formData);
     const data = [formData];
-    const resp = await api.postReq("/marketing/api/lead?manufacturer=FT", data);
-
-    if (resp["Status"] && resp["Status"] === "Failure")
-      throw new Error(resp["StatusMessage"]);
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
 
     res.json({
       status: true,
-      data: resp["LeadResponseRecords"][0],
+      msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
     });
   } catch (error) {
     console.error(error);
