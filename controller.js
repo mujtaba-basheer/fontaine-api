@@ -62,6 +62,35 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
       },
       req.body
     );
+    const data = [formData];
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+
+    res.json({
+      status: true,
+      msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
+    });
+  } catch (error) {
+    console.error(error);
+    return next(new AppError(error.message, error.statusCode));
+  }
+});
+
+// Locate Dealer: POST
+export const locateDealer = AsyncHandler(async (req, res, next) => {
+  try {
+    const formData = Object.assign(
+      {
+        LeadSourceName: "Organic",
+        LeadTypeName: "Locate Dealer",
+        LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
+        IsCommunicationOptIn: true,
+        CommunicationOptInIpAddress: null,
+        CommunicationOptInDate: null,
+        CommunicationOptInSource: null,
+      },
+      req.body
+    );
     console.log(formData);
     const data = [formData];
     await api.postReq("/marketing/api/lead?manufacturer=FT", data);
