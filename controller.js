@@ -84,6 +84,7 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
         LeadTypeName: "Locate Dealer",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
+        LastName: "Dealer",
         IsCommunicationOptIn: true,
         CommunicationOptInIpAddress: null,
         CommunicationOptInDate: null,
