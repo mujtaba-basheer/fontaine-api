@@ -144,6 +144,7 @@ export const klaraRoiPdf = AsyncHandler(async (req, res, next) => {
 
         resp.on("end", () => {
           console.log("Finished Writing File.");
+          res.setHeader("Content-Type", "application/pdf");
           res.end();
         });
       }
