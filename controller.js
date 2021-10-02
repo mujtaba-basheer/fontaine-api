@@ -111,9 +111,7 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
 export const klaraRoiPdf = AsyncHandler(async (req, res, next) => {
   try {
     const data = Object.assign({}, req.body);
-
     const bodyData = JSON.stringify(data);
-    console.log(bodyData);
 
     const encodedToken = Buffer.from(process.env.API_KEY, "ascii").toString(
       "base64"
@@ -150,7 +148,6 @@ export const klaraRoiPdf = AsyncHandler(async (req, res, next) => {
     );
 
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Access-Control-Allow-Origin", "*");
     request.write(bodyData);
     request.end();
   } catch (error) {
