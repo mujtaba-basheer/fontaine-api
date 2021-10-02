@@ -1,6 +1,7 @@
 import ApiCall from "./utils/api-call.js";
 import AppError from "./utils/app-error.js";
 import AsyncHandler from "express-async-handler";
+import https from "https";
 
 const api = new ApiCall();
 
@@ -100,6 +101,56 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
       status: true,
       msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
     });
+  } catch (error) {
+    console.error(error);
+    return next(new AppError(error.message, error.statusCode));
+  }
+});
+
+// Karla ROI: POST
+export const klaraRoiPdf = AsyncHandler(async (req, res, next) => {
+  try {
+    const data = Object.assign({}, req.body);
+
+    const bodyData = JSON.stringify(data);
+    console.log(bodyData);
+
+    const encodedToken = Buffer.from(process.env.API_KEY, "ascii").toString(
+      "base64"
+    );
+
+    const request = https.request(
+      {
+        hostname: "app.useanvil.com",
+        path: "/api/v1/fill/rXV8F2q9ec1vRRoG6ajp.pdf",
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${encodedToken}`,
+          "Content-Type": "application/json",
+          "Content-Length": bodyData.length,
+        },
+      },
+      (resp) => {
+        resp.on("data", (chunk) =>
+          res.write(chunk, "binary", (err) => {
+            if (err) {
+              console.log("Error Writing File. Aborting...");
+              file.close();
+              resp.complete(null);
+              res.end();
+            }
+          })
+        );
+
+        resp.on("end", () => {
+          console.log("Finished Writing File.");
+          res.end();
+        });
+      }
+    );
+
+    request.write(bodyData);
+    request.end();
   } catch (error) {
     console.error(error);
     return next(new AppError(error.message, error.statusCode));
