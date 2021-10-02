@@ -144,12 +144,13 @@ export const klaraRoiPdf = AsyncHandler(async (req, res, next) => {
 
         resp.on("end", () => {
           console.log("Finished Writing File.");
-          res.setHeader("Content-Type", "application/pdf");
           res.end();
         });
       }
     );
 
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     request.write(bodyData);
     request.end();
   } catch (error) {
