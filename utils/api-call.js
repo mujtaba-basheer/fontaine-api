@@ -85,7 +85,7 @@ class ApiCall {
             else throw new HTTPResponseError(resp);
           })
           .then((resp) => {
-            console.log(resp);
+            console.log(JSON.stringify(resp));
             if (!resp["TopLevelError"]) res(resp);
             else throw new HTTPResponseError(400, "Bad Request");
           })

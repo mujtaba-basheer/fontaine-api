@@ -9,7 +9,6 @@ import { notFound, errorHandler } from "./middleware/error.js";
 
 config();
 const app = express();
-
 // app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));

@@ -107,49 +107,30 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
   }
 });
 
-// Karla ROI: POST
-export const klaraRoiPdf = AsyncHandler(async (req, res, next) => {
+// Compare Trailer: POST
+export const compareTrailer = AsyncHandler(async (req, res, next) => {
   try {
-    const data = Object.assign({}, req.body);
-    const bodyData = JSON.stringify(data);
-
-    const encodedToken = Buffer.from(process.env.API_KEY, "ascii").toString(
-      "base64"
-    );
-
-    const request = https.request(
+    const formData = Object.assign(
       {
-        hostname: "app.useanvil.com",
-        path: "/api/v1/fill/rXV8F2q9ec1vRRoG6ajp.pdf",
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${encodedToken}`,
-          "Content-Type": "application/json",
-          "Content-Length": bodyData.length,
-        },
+        LeadSourceName: "Organic",
+        LeadTypeName: "Compare Trailer",
+        LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
+        IsCommunicationOptIn: true,
+        CommunicationOptInIpAddress: null,
+        CommunicationOptInDate: null,
+        CommunicationOptInSource: null,
       },
-      (resp) => {
-        resp.on("data", (chunk) =>
-          res.write(chunk, "binary", (err) => {
-            if (err) {
-              console.log("Error Writing File. Aborting...");
-              file.close();
-              resp.complete(null);
-              res.end();
-            }
-          })
-        );
-
-        resp.on("end", () => {
-          console.log("Finished Writing File.");
-          res.end();
-        });
-      }
+      req.body
     );
+    // console.log(formData);
+    const data = [formData];
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
 
-    res.setHeader("Content-Type", "application/pdf");
-    request.write(bodyData);
-    request.end();
+    res.json({
+      status: true,
+      msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
+    });
   } catch (error) {
     console.error(error);
     return next(new AppError(error.message, error.statusCode));

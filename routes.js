@@ -4,7 +4,7 @@ import {
   getSubscribers,
   contactFontaine,
   locateDealer,
-  klaraRoiPdf,
+  compareTrailer,
 } from "./controller.js";
 
 const router = express.Router();
@@ -18,8 +18,8 @@ router.post("/contact", contactFontaine);
 // contact fontaine
 router.post("/dealer", locateDealer);
 
-// klara roi pdf
-router.post("/klara", klaraRoiPdf);
+// compare trailer
+router.post("/compare-trailer", compareTrailer);
 
 // test
 router.get("/subscribers", getSubscribers);
