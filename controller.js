@@ -84,8 +84,6 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
         LeadSourceName: "Organic",
         LeadTypeName: "Locate Dealer",
         LeadCategoryName: "fontainetrailer.com",
-        CountryCode: "US",
-        LastName: "Dealer",
         IsCommunicationOptIn: true,
         CommunicationOptInIpAddress: null,
         CommunicationOptInDate: null,
@@ -107,13 +105,13 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
   }
 });
 
-// Compare Trailer: POST
-export const compareTrailer = AsyncHandler(async (req, res, next) => {
+// Build a Trailer: POST
+export const buildTrailer = AsyncHandler(async (req, res, next) => {
   try {
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
-        LeadTypeName: "Compare Trailer",
+        LeadTypeName: "Build a Trailer",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
         IsCommunicationOptIn: true,

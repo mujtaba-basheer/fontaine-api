@@ -18,8 +18,8 @@ router.post("/contact", contactFontaine);
 // contact fontaine
 router.post("/dealer", locateDealer);
 
-// compare trailer
-router.post("/compare-trailer", compareTrailer);
+// build trailer
+router.post("/build-trailer", buildTrailer);
 
 // test
 router.get("/subscribers", getSubscribers);
