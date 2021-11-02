@@ -134,3 +134,63 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
     return next(new AppError(error.message, error.statusCode));
   }
 });
+
+// Flatbed Trailer: POST
+export const flatbedTrailer = AsyncHandler(async (req, res, next) => {
+  try {
+    const formData = Object.assign(
+      {
+        LeadSourceName: "Organic",
+        LeadTypeName: "Request A Brochure",
+        LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
+        IsCommunicationOptIn: true,
+        CommunicationOptInIpAddress: null,
+        CommunicationOptInDate: null,
+        CommunicationOptInSource: null,
+      },
+      req.body
+    );
+    // console.log(formData);
+    const data = [formData];
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+
+    res.json({
+      status: true,
+      msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
+    });
+  } catch (error) {
+    console.error(error);
+    return next(new AppError(error.message, error.statusCode));
+  }
+});
+
+// Enquire: POST
+export const enquire = AsyncHandler(async (req, res, next) => {
+  try {
+    const formData = Object.assign(
+      {
+        LeadSourceName: "Organic",
+        LeadTypeName: "Request A Brochure",
+        LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
+        IsCommunicationOptIn: true,
+        CommunicationOptInIpAddress: null,
+        CommunicationOptInDate: null,
+        CommunicationOptInSource: null,
+      },
+      req.body
+    );
+    // console.log(formData);
+    const data = [formData];
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+
+    res.json({
+      status: true,
+      msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
+    });
+  } catch (error) {
+    console.error(error);
+    return next(new AppError(error.message, error.statusCode));
+  }
+});

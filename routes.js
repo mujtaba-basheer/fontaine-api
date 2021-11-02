@@ -5,6 +5,8 @@ import {
   contactFontaine,
   locateDealer,
   buildTrailer,
+  flatbedTrailer,
+  enquire,
 } from "./controller.js";
 
 const router = express.Router();
@@ -20,6 +22,12 @@ router.post("/dealer", locateDealer);
 
 // build trailer
 router.post("/build-trailer", buildTrailer);
+
+// flatbed trailer
+router.post("/flatbed-trailer", flatbedTrailer);
+
+// enquire
+router.post("/enquire", enquire);
 
 // test
 router.get("/subscribers", getSubscribers);
