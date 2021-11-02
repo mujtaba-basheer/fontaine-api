@@ -4,7 +4,7 @@ import {
   getSubscribers,
   contactFontaine,
   locateDealer,
-  compareTrailer,
+  buildTrailer,
 } from "./controller.js";
 
 const router = express.Router();
