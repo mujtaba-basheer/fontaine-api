@@ -84,6 +84,7 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
         LeadSourceName: "Organic",
         LeadTypeName: "Locate Dealer",
         LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
         IsCommunicationOptIn: true,
         CommunicationOptInIpAddress: null,
         CommunicationOptInDate: null,
@@ -171,7 +172,7 @@ export const enquire = AsyncHandler(async (req, res, next) => {
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
-        LeadTypeName: "Request A Brochure",
+        LeadTypeName: "Quote Request",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
         IsCommunicationOptIn: true,
