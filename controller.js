@@ -1,7 +1,7 @@
 import ApiCall from "./utils/api-call.js";
 import AppError from "./utils/app-error.js";
+import getDateString from "./utils/date-string.js";
 import AsyncHandler from "express-async-handler";
-import https from "https";
 
 const api = new ApiCall();
 
@@ -16,12 +16,12 @@ export const addSubscriber = AsyncHandler(async (req, res, next) => {
         IsCommunicationOptIn: true,
         Brand: "FT",
         IsCommunicationOptInIpAddress: ipAddress,
-        IsCommunicationOptInDate: new Date().toISOString().substring(0, 10),
+        IsCommunicationOptInDate: getDateString(),
         IsCommunicationOptInSource: req.headers.host || "website",
       },
       req.body
     );
-    const resp = await api.postReq("/api/subscriber?manufacturer=FT", data);
+    await api.postReq("/api/subscriber?manufacturer=FT", data);
 
     res.json({
       status: true,
@@ -36,10 +36,11 @@ export const addSubscriber = AsyncHandler(async (req, res, next) => {
 // Get List of Subscribers: GET
 export const getSubscribers = async (req, res, next) => {
   try {
-    await api.getReq("/odata/v2/SubscriberOptIn");
+    const resp = await api.getReq("/odata/v2/SubscriberOptIn");
 
     res.json({
       status: true,
+      data: resp.value.filter(({ Email = "" }) => Email.startsWith("test123@")),
     });
   } catch (error) {
     console.error(error);
@@ -58,7 +59,7 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
         CountryCode: "US",
         IsCommunicationOptIn: true,
         CommunicationOptInIpAddress: null,
-        CommunicationOptInDate: null,
+        CommunicationOptInDate: getDateString(),
         CommunicationOptInSource: null,
       },
       req.body
@@ -82,12 +83,12 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
-        LeadTypeName: "Locate Dealer",
+        LeadTypeName: "Contact a Dealer",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
         IsCommunicationOptIn: true,
         CommunicationOptInIpAddress: null,
-        CommunicationOptInDate: null,
+        CommunicationOptInDate: getDateString(),
         CommunicationOptInSource: null,
       },
       req.body
@@ -109,6 +110,7 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
 // Build a Trailer: POST
 export const buildTrailer = AsyncHandler(async (req, res, next) => {
   try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
@@ -116,8 +118,8 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
         IsCommunicationOptIn: true,
-        CommunicationOptInIpAddress: null,
-        CommunicationOptInDate: null,
+        CommunicationOptInIpAddress: ipAddress,
+        CommunicationOptInDate: getDateString(),
         CommunicationOptInSource: null,
       },
       req.body
@@ -139,6 +141,7 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
 // Flatbed Trailer: POST
 export const flatbedTrailer = AsyncHandler(async (req, res, next) => {
   try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
@@ -146,8 +149,8 @@ export const flatbedTrailer = AsyncHandler(async (req, res, next) => {
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
         IsCommunicationOptIn: true,
-        CommunicationOptInIpAddress: null,
-        CommunicationOptInDate: null,
+        CommunicationOptInIpAddress: ipAddress,
+        CommunicationOptInDate: getDateString(),
         CommunicationOptInSource: null,
       },
       req.body
@@ -177,7 +180,7 @@ export const enquire = AsyncHandler(async (req, res, next) => {
         CountryCode: "US",
         IsCommunicationOptIn: true,
         CommunicationOptInIpAddress: null,
-        CommunicationOptInDate: null,
+        CommunicationOptInDate: getDateString(),
         CommunicationOptInSource: null,
       },
       req.body
