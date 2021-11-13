@@ -51,16 +51,17 @@ export const getSubscribers = async (req, res, next) => {
 // Contact Fontaine: POST
 export const contactFontaine = AsyncHandler(async (req, res, next) => {
   try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
         LeadTypeName: "Build a Trailer",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
-        IsCommunicationOptIn: true,
-        CommunicationOptInIpAddress: null,
+        IsCommunicationOptIn: false,
+        CommunicationOptInIpAddress: ipAddress,
         CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: null,
+        CommunicationOptInSource: "website",
       },
       req.body
     );
@@ -117,10 +118,10 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
         LeadTypeName: "Build a Trailer",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
-        IsCommunicationOptIn: true,
+        IsCommunicationOptIn: false,
         CommunicationOptInIpAddress: ipAddress,
         CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: null,
+        CommunicationOptInSource: "website",
       },
       req.body
     );
