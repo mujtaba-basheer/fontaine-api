@@ -5,7 +5,7 @@ import {
   contactFontaine,
   locateDealer,
   buildTrailer,
-  flatbedTrailer,
+  literature,
   enquire,
 } from "./controller.js";
 
@@ -23,8 +23,8 @@ router.post("/dealer", locateDealer);
 // build trailer
 router.post("/build-trailer", buildTrailer);
 
-// flatbed trailer
-router.post("/flatbed-trailer", flatbedTrailer);
+// literature
+router.post("/literature", literature);
 
 // enquire
 router.post("/enquire", enquire);

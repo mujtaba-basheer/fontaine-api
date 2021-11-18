@@ -55,7 +55,7 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
-        LeadTypeName: "Build a Trailer",
+        LeadTypeName: "Contact Fontaine",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
         IsCommunicationOptIn: false,
@@ -139,8 +139,8 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
   }
 });
 
-// Flatbed Trailer: POST
-export const flatbedTrailer = AsyncHandler(async (req, res, next) => {
+// Literature: POST
+export const literature = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const formData = Object.assign(
@@ -149,10 +149,10 @@ export const flatbedTrailer = AsyncHandler(async (req, res, next) => {
         LeadTypeName: "Request A Brochure",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
-        IsCommunicationOptIn: true,
+        IsCommunicationOptIn: false,
         CommunicationOptInIpAddress: ipAddress,
         CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: null,
+        CommunicationOptInSource: "website",
       },
       req.body
     );
@@ -173,16 +173,17 @@ export const flatbedTrailer = AsyncHandler(async (req, res, next) => {
 // Enquire: POST
 export const enquire = AsyncHandler(async (req, res, next) => {
   try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
         LeadTypeName: "Quote Request",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
-        IsCommunicationOptIn: true,
-        CommunicationOptInIpAddress: null,
+        IsCommunicationOptIn: false,
+        CommunicationOptInIpAddress: ipAddress,
         CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: null,
+        CommunicationOptInSource: "website",
       },
       req.body
     );
