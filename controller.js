@@ -81,16 +81,17 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
 // Locate Dealer: POST
 export const locateDealer = AsyncHandler(async (req, res, next) => {
   try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
         LeadTypeName: "Contact a Dealer",
         LeadCategoryName: "fontainetrailer.com",
         CountryCode: "US",
-        IsCommunicationOptIn: true,
-        CommunicationOptInIpAddress: null,
+        IsCommunicationOptIn: false,
+        CommunicationOptInIpAddress: ipAddress,
         CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: null,
+        CommunicationOptInSource: "website",
       },
       req.body
     );
