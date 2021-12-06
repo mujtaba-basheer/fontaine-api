@@ -9,6 +9,8 @@ const api = new ApiCall();
 export const addSubscriber = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { brand } = req.query;
+
     const data = Object.assign(
       {
         SubscriberTypeCode: "NewsletterFT",
@@ -21,7 +23,7 @@ export const addSubscriber = AsyncHandler(async (req, res, next) => {
       },
       req.body
     );
-    await api.postReq("/api/subscriber?manufacturer=FT", data);
+    await api.postReq(`/api/subscriber?manufacturer=${brand}`, data);
 
     res.json({
       status: true,
@@ -40,7 +42,7 @@ export const getSubscribers = async (req, res, next) => {
 
     res.json({
       status: true,
-      data: resp.value.filter(({ Email = "" }) => Email.startsWith("test123@")),
+      data: resp.value,
     });
   } catch (error) {
     console.error(error);
@@ -52,6 +54,9 @@ export const getSubscribers = async (req, res, next) => {
 export const contactFontaine = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { brand } = req.query;
+    const { IsCommunicationOptIn } = req.body;
+
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
@@ -60,14 +65,14 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
         CountryCode: "US",
         Brands: "Fontaine",
         IsCommunicationOptIn: false,
-        CommunicationOptInIpAddress: ipAddress,
-        CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: "website",
+        CommunicationOptInIpAddress: IsCommunicationOptIn ? ipAddress : null,
+        CommunicationOptInDate: IsCommunicationOptIn ? getDateString() : null,
+        CommunicationOptInSource: IsCommunicationOptIn ? "website" : null,
       },
       req.body
     );
     const data = [formData];
-    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+    await api.postReq(`/marketing/api/lead?manufacturer=${brand}`, data);
 
     res.json({
       status: true,
@@ -83,6 +88,8 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
 export const locateDealer = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { brand } = req.query;
+
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
@@ -99,7 +106,7 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
     );
     console.log(formData);
     const data = [formData];
-    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+    await api.postReq(`/marketing/api/lead?manufacturer=${brand}`, data);
 
     res.json({
       status: true,
@@ -115,6 +122,8 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
 export const buildTrailer = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { brand } = req.query;
+
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
@@ -131,7 +140,7 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
     );
     // console.log(formData);
     const data = [formData];
-    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+    await api.postReq(`/marketing/api/lead?manufacturer=${brand}`, data);
 
     res.json({
       status: true,
@@ -147,6 +156,8 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
 export const literature = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { brand } = req.query;
+
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
@@ -163,7 +174,7 @@ export const literature = AsyncHandler(async (req, res, next) => {
     );
     // console.log(formData);
     const data = [formData];
-    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+    await api.postReq(`/marketing/api/lead?manufacturer=${brand}`, data);
 
     res.json({
       status: true,
@@ -179,6 +190,8 @@ export const literature = AsyncHandler(async (req, res, next) => {
 export const enquire = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { brand } = req.query;
+
     const formData = Object.assign(
       {
         LeadSourceName: "Organic",
@@ -195,7 +208,7 @@ export const enquire = AsyncHandler(async (req, res, next) => {
     );
     // console.log(formData);
     const data = [formData];
-    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+    await api.postReq(`/marketing/api/lead?manufacturer=${brand}`, data);
 
     res.json({
       status: true,
