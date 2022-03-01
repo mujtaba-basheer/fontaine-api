@@ -124,6 +124,7 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const { brand } = req.query;
+    const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
       {
@@ -133,9 +134,9 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
         CountryCode: "US",
         Brands: "Fontaine",
         IsCommunicationOptIn: false,
-        CommunicationOptInIpAddress: ipAddress,
-        CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: "website",
+        CommunicationOptInIpAddress: IsCommunicationOptIn ? ipAddress : null,
+        CommunicationOptInDate: IsCommunicationOptIn ? getDateString() : null,
+        CommunicationOptInSource: IsCommunicationOptIn ? "website" : null,
       },
       req.body
     );
@@ -158,6 +159,7 @@ export const literature = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const { brand } = req.query;
+    const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
       {
@@ -167,9 +169,9 @@ export const literature = AsyncHandler(async (req, res, next) => {
         CountryCode: "US",
         Brands: "Fontaine",
         IsCommunicationOptIn: false,
-        CommunicationOptInIpAddress: ipAddress,
-        CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: "website",
+        CommunicationOptInIpAddress: IsCommunicationOptIn ? ipAddress : null,
+        CommunicationOptInDate: IsCommunicationOptIn ? getDateString() : null,
+        CommunicationOptInSource: IsCommunicationOptIn ? "website" : null,
       },
       req.body
     );
@@ -192,6 +194,7 @@ export const enquire = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
     const { brand } = req.query;
+    const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
       {
@@ -201,9 +204,9 @@ export const enquire = AsyncHandler(async (req, res, next) => {
         CountryCode: "US",
         Brands: "Fontaine",
         IsCommunicationOptIn: false,
-        CommunicationOptInIpAddress: ipAddress,
-        CommunicationOptInDate: getDateString(),
-        CommunicationOptInSource: "website",
+        CommunicationOptInIpAddress: IsCommunicationOptIn ? ipAddress : null,
+        CommunicationOptInDate: IsCommunicationOptIn ? getDateString() : null,
+        CommunicationOptInSource: IsCommunicationOptIn ? "website" : null,
       },
       req.body
     );
