@@ -82,7 +82,7 @@ class ApiCall {
         })
           .then((resp) => {
             if (resp.ok) return resp.json();
-            else throw new HTTPResponseError(resp);
+            else throw new HTTPResponseError(resp.status);
           })
           .then((resp) => {
             console.log(JSON.stringify(resp));
