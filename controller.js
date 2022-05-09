@@ -86,7 +86,6 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
 export const locateDealer = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
-    const { brand } = req.query;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -103,9 +102,8 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
       },
       req.body
     );
-    console.log(formData);
     const data = [formData];
-    await api.postReq(`/marketing/api/lead?manufacturer=${brand}`, data);
+    await api.postReq(`/marketing/api/lead?manufacturer=FT`, data);
 
     res.json({
       status: true,
