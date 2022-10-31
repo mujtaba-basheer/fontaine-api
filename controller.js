@@ -152,7 +152,6 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
 export const literature = AsyncHandler(async (req, res, next) => {
   try {
     const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
-    const { brand } = req.query;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -171,7 +170,74 @@ export const literature = AsyncHandler(async (req, res, next) => {
     );
     // console.log(formData);
     const data = [formData];
-    await api.postReq(`/marketing/api/lead?manufacturer=${brand}`, data);
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+
+    res.json({
+      status: true,
+      msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
+    });
+  } catch (error) {
+    console.error(error);
+    return next(new AppError(error.message, error.statusCode));
+  }
+});
+
+// Literature Forms: POST
+export const literatureForms = AsyncHandler(async (req, res, next) => {
+  try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { IsCommunicationOptIn } = req.body;
+
+    const formData = Object.assign(
+      {
+        LeadSourceName: "Organic",
+        LeadTypeName: "Request A Brochure",
+        LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
+        Brands: "Fontaine",
+        IsCommunicationOptIn: false,
+        CommunicationOptInIpAddress: IsCommunicationOptIn ? ipAddress : null,
+        CommunicationOptInDate: IsCommunicationOptIn ? getDateString() : null,
+        CommunicationOptInSource: IsCommunicationOptIn ? "website" : null,
+      },
+      req.body
+    );
+    // console.log(formData);
+    const data = [formData];
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
+
+    res.json({
+      status: true,
+      msg: "Thanks for reaching out to us! We'll get in touch with you soon.",
+    });
+  } catch (error) {
+    console.error(error);
+    return next(new AppError(error.message, error.statusCode));
+  }
+});
+
+// Accessory Form: POST
+export const accessoryForm = AsyncHandler(async (req, res, next) => {
+  try {
+    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const { IsCommunicationOptIn } = req.body;
+
+    const formData = Object.assign(
+      {
+        LeadSourceName: "Organic",
+        LeadTypeName: "Accessory Form",
+        LeadCategoryName: "fontainetrailer.com",
+        CountryCode: "US",
+        Brands: "Fontaine",
+        IsCommunicationOptIn: false,
+        CommunicationOptInIpAddress: IsCommunicationOptIn ? ipAddress : null,
+        CommunicationOptInDate: IsCommunicationOptIn ? getDateString() : null,
+        CommunicationOptInSource: IsCommunicationOptIn ? "website" : null,
+      },
+      req.body
+    );
+    const data = [formData];
+    await api.postReq("/marketing/api/lead?manufacturer=FT", data);
 
     res.json({
       status: true,
@@ -203,7 +269,7 @@ export const enquire = AsyncHandler(async (req, res, next) => {
       },
       req.body
     );
-    // console.log(formData);
+    // console.log(JSON.stringify(formData));
     const data = [formData];
     await api.postReq("/marketing/api/lead?manufacturer=FT", data);
 
