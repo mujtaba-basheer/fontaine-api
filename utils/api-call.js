@@ -85,8 +85,13 @@ class ApiCall {
             else throw new HTTPResponseError(resp.status);
           })
           .then((resp) => {
-            if (!resp["TopLevelError"]) res(resp);
-            else throw new HTTPResponseError(400, "Bad Request");
+            if (
+              resp["TopLevelError"] ||
+              resp["LeadResponseRecords"][0]["Status"] === "Failure"
+            ) {
+              throw new HTTPResponseError(400, "Bad Request");
+            }
+            res(resp);
           })
           .catch((err) => rej(err));
       });
