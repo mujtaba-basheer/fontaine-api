@@ -87,7 +87,8 @@ class ApiCall {
           .then((resp) => {
             if (
               resp["TopLevelError"] ||
-              resp["LeadResponseRecords"][0]["Status"] === "Failure"
+              (resp["LeadResponseRecords"] &&
+                resp["LeadResponseRecords"][0]["Status"] === "Failure")
             ) {
               throw new HTTPResponseError(400, "Bad Request");
             }
