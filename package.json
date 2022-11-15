@@ -15,7 +15,8 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "node-fetch": "^3.0.0",
-    "webflow-api": "^0.5.4"
+    "webflow-api": "^0.5.4",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "morgan": "^1.10.0",

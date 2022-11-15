@@ -1,6 +1,18 @@
 import fetch from "node-fetch";
 import { config } from "dotenv";
+import { createLogger, transports, format } from "winston";
+const { combine, json, timestamp } = format;
 config({ path: ".env" });
+
+const errorLogger = createLogger({
+  transports: [new transports.File({ filename: "error.log" })],
+  format: combine(
+    timestamp({
+      format: "YYYY-MM-DD HH:mm:ss",
+    }),
+    json()
+  ),
+});
 
 class HTTPResponseError extends Error {
   constructor(status, statusText, ...args) {
@@ -90,11 +102,15 @@ class ApiCall {
               (resp["LeadResponseRecords"] &&
                 resp["LeadResponseRecords"][0]["Status"] === "Failure")
             ) {
+              errorLogger.error(JSON.stringify(resp));
               throw new HTTPResponseError(400, "Bad Request");
             }
             res(resp);
           })
-          .catch((err) => rej(err));
+          .catch((err) => {
+            errorLogger.error(JSON.stringify(err));
+            rej(err);
+          });
       });
     } catch (error) {
       return Promise.reject(error);
