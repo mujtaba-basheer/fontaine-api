@@ -102,7 +102,7 @@ class ApiCall {
               (resp["LeadResponseRecords"] &&
                 resp["LeadResponseRecords"][0]["Status"] === "Failure")
             ) {
-              errorLogger.error(JSON.stringify(resp));
+              errorLogger.error(JSON.stringify({ ...resp, data }));
               throw new HTTPResponseError(400, "Bad Request");
             }
             res(resp);

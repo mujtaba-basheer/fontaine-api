@@ -4,4 +4,5 @@ node_modules/
 webflow.js
 heroku/
 *.pem
+*.sh
 error.log
