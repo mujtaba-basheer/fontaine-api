@@ -87,16 +87,16 @@ class ApiCall {
     try {
       await this.authenticate();
       return new Promise(async (res, rej) => {
-        fetch(this.baseurl + url, {
-          method: "POST",
-          headers: { ...this.headers, "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        })
-          .then((resp) => {
-            if (resp.ok) return resp.json();
-            else throw new HTTPResponseError(resp.status);
-          })
-          .then((resp) => {
+        try {
+          const request = await fetch(this.baseurl + url, {
+            method: "POST",
+            headers: { ...this.headers, "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          const resp = await request.json();
+
+          if (request.ok) {
             if (
               resp["TopLevelError"] ||
               (resp["LeadResponseRecords"] &&
@@ -106,11 +106,13 @@ class ApiCall {
               throw new HTTPResponseError(400, "Bad Request");
             }
             res(resp);
-          })
-          .catch((err) => {
-            errorLogger.error(JSON.stringify(err));
-            rej(err);
-          });
+          } else {
+            errorLogger.error(JSON.stringify({ ...resp, data }));
+            throw new HTTPResponseError(request.status, "Bad Request");
+          }
+        } catch (error) {
+          rej(error);
+        }
       });
     } catch (error) {
       return Promise.reject(error);
