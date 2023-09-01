@@ -6,3 +6,4 @@ heroku/
 *.pem
 *.sh
 error.log
+scripts/

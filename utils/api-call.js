@@ -1,11 +1,22 @@
 import fetch from "node-fetch";
 import { config } from "dotenv";
 import { createLogger, transports, format } from "winston";
+import "winston-mongodb";
+import { MongoClient } from "mongodb";
 const { combine, json, timestamp } = format;
 config({ path: ".env" });
 
+const mongoUri = process.env.MONGO_URI;
+const client = new MongoClient(mongoUri);
 const errorLogger = createLogger({
-  transports: [new transports.File({ filename: "error.log" })],
+  transports: [
+    new transports.File({ filename: "error.log" }),
+    new transports.MongoDB({
+      db: client.db("logs"),
+      collection: "logs",
+      level: "error",
+    }),
+  ],
   format: combine(
     timestamp({
       format: "YYYY-MM-DD HH:mm:ss",
