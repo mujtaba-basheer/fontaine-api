@@ -8,7 +8,7 @@ const api = new ApiCall();
 // Add A Subscriber: POST
 export const addSubscriber = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
 
     const data = Object.assign(
       {
@@ -52,7 +52,7 @@ export const getSubscribers = async (req, res, next) => {
 // Contact Fontaine: POST
 export const contactFontaine = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -85,7 +85,7 @@ export const contactFontaine = AsyncHandler(async (req, res, next) => {
 // Locate Dealer: POST
 export const locateDealer = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -118,7 +118,7 @@ export const locateDealer = AsyncHandler(async (req, res, next) => {
 // Build a Trailer: POST
 export const buildTrailer = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -151,7 +151,7 @@ export const buildTrailer = AsyncHandler(async (req, res, next) => {
 // Literature: POST
 export const literature = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -185,7 +185,7 @@ export const literature = AsyncHandler(async (req, res, next) => {
 // Literature Forms: POST
 export const literatureForms = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -219,7 +219,7 @@ export const literatureForms = AsyncHandler(async (req, res, next) => {
 // Accessory Form: POST
 export const accessoryForm = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
@@ -252,7 +252,7 @@ export const accessoryForm = AsyncHandler(async (req, res, next) => {
 // Enquire: POST
 export const enquire = AsyncHandler(async (req, res, next) => {
   try {
-    const ipAddress = req.headers["x-forwared-for"] || req.socket.remoteAddress;
+    const ipAddress = req.headers["x-real-ip"] || req.socket.remoteAddress;
     const { IsCommunicationOptIn } = req.body;
 
     const formData = Object.assign(
